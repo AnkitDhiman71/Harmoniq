@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmoniq</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="auth-container">
+        <!-- Login Form -->
+        <div id="login-form" class="auth-form">
+            <h2>Login to Harmoniq</h2>
+            <input type="text" id="login-username" placeholder="Username" aria-label="Username">
+            <input type="password" id="login-password" placeholder="Password" aria-label="Password">
+            <button onclick="login()">Login</button>
+            <p>Don't have an account? <a href="#" onclick="toggleForms()">Sign up</a></p>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signup-form" class="auth-form hidden">
+            <h2>Create Account on Harmoniq</h2>
+            <input type="text" id="signup-username" placeholder="Username" aria-label="Username">
+            <input type="email" id="signup-email" placeholder="Email" aria-label="Email">
+            <input type="password" id="signup-password" placeholder="Password" aria-label="Password">
+            <button onclick="signup()">Sign Up</button>
+            <p>Already have an account? <a href="#" onclick="toggleForms()">Login</a></p>
+        </div>
+    </div>
+
+    <div id="main-content" class="hidden">
+        <div class="sidebar">
+            <h2>Harmoniq</h2>
+            <div class="sidebar-search">
+                <div class="search-wrapper">
+                    <input type="text" placeholder="Search for songs, artists..." id="searchBox" aria-label="Search for songs or artists">
+                    <i class="bi bi-search search-bar-icon"></i>
+                </div>
+            </div>
+            <ul>
+                <li onclick="showHome()"><i class="bi bi-house-door"></i><span>Home</span></li>
+                <li onclick="showSearch()"><i class="bi bi-search"></i><span>Search</span></li>
+                <li onclick="showLibrary()"><i class="bi bi-music-note-list"></i><span>Your Library</span></li>
+                <li onclick="logout()"><i class="bi bi-box-arrow-right"></i><span>Logout</span></li>
+            </ul>
+            <div class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="bi bi-moon"></i>
+                <i class="bi bi-sun"></i>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="top-bar" style="display:none;"></div>
+            <div class="playlists" id="playlists">
+                <!-- Playlist cards will be rendered here -->
+            </div>
+        </div>
+        <div class="player hidden">
+            <div class="player-header">
+                <button id="togglePlayerBtn" class="toggle-player-btn" aria-label="Minimize player">
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+            </div>
+            <div class="player-artwork">
+                <span class="song-initials"></span>
+            </div>
+            <div class="player-info-expanded">
+                <div class="song-title"></div>
+                <div class="song-artist"></div>
+            </div>
+            <div class="player-info">
+                <div class="wavy-svg" id="wavyAnimation">
+                    <svg width="80" height="32" viewBox="0 0 80 32">
+                        <polyline id="wavyPolyline" points="0,16 10,8 20,24 30,8 40,24 50,8 60,24 70,8 80,16"
+                            fill="none" stroke="url(#wavyGradient)" stroke-width="4">
+                            <animate attributeName="points"
+                                dur="1.2s"
+                                repeatCount="indefinite"
+                                values="
+                                    0,16 10,8 20,24 30,8 40,24 50,8 60,24 70,8 80,16;
+                                    0,16 10,24 20,8 30,24 40,8 50,24 60,8 70,24 80,16;
+                                    0,16 10,8 20,24 30,8 40,24 50,8 60,24 70,8 80,16
+                                " />
+                        </polyline>
+                        <defs>
+                            <linearGradient id="wavyGradient" x1="0" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#1db954"/>
+                                <stop offset="100%" stop-color="#e91e63"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div id="currentSong">No song playing</div>
+            </div>
+            <div class="player-controls">
+                <button id="shuffleBtn" class="player-control-btn" aria-label="Shuffle playlist">
+                    <i class="bi bi-shuffle"></i>
+                </button>
+                <button id="prevBtn" class="player-control-btn" aria-label="Previous song">
+                    <i class="bi bi-skip-backward-fill"></i>
+                </button>
+                <button id="togglePlayBtn" class="toggle-play-btn" aria-label="Toggle play/pause">
+                    <i class="bi bi-play-fill"></i>
+                </button>
+                <button id="nextBtn" class="player-control-btn" aria-label="Next song">
+                    <i class="bi bi-skip-forward-fill"></i>
+                </button>
+            </div>
+            <div class="player-progress-group">
+                <span id="currentTime">0:00</span>
+                <div class="custom-progress-bar" id="customProgressBar">
+                    <div class="custom-progress" id="customProgress"></div>
+                </div>
+                <span id="duration">0:00</span>
+            </div>
+            <div class="player-volume-group">
+                <i class="bi bi-volume-up volume-icon"></i>
+                <div class="custom-volume-bar" id="customVolumeBar">
+                    <div class="custom-volume" id="customVolume"></div>
+                </div>
+            </div>
+            <audio id="main-audio" style="display:none;"></audio>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
